@@ -3,22 +3,36 @@ using System.Collections.Generic;
 
 namespace TicTacToeGameLogic
 {
+    public delegate void RoundIsOverHandler(Enums.eGameState i_FinalGameState);
     internal class GameLogic
     {
+        public event RoundIsOverHandler RoundOver;
         internal const Enums.eCellValue k_PlayerOneValue = Enums.eCellValue.X;
         internal const Enums.eCellValue k_PlayerTwoValue = Enums.eCellValue.O;
-        internal const int k_MinimumBoardSize = 3;
-        internal const int k_MaximumBoardSize = 9;
+        internal const int k_MinimumBoardSize = 4;
+        internal const int k_MaximumBoardSize = 10;
 
         private readonly BoardGame r_BoardGame;
         private readonly Enums.eGameType r_GameType;
         private readonly Random r_Random = new Random();
+        
         private bool m_FirstPlayerStartedRound;
 
-        internal GameLogic(int i_BoardSize, Enums.eGameType i_GameType)
+        internal GameLogic(int i_BoardSize, Enums.eGameType i_GameType, CellValueChangedHandler i_CellValueChangedHandler)
         {
-            r_BoardGame = new BoardGame(i_BoardSize);
+            r_BoardGame = new BoardGame(i_BoardSize, i_CellValueChangedHandler);
             r_GameType = i_GameType;
+        }
+
+        private bool RoundIsOver
+        {
+            set
+            {
+                if (value && RoundOver != null)
+                {
+                    RoundOver.Invoke(FinalGameState);
+                }
+            }
         }
 
         internal Enums.eGameType GameType
@@ -75,27 +89,25 @@ namespace TicTacToeGameLogic
             get { return IsFirstPlayerTurn ? Enums.ePlayer.PlayerOne : Enums.ePlayer.PlayerTwo; }
         }
 
-        internal void NextPlayerMove(GameCell i_GameCell, out bool o_RoundIsOver)
+        internal void NextPlayerMove(GameCell i_GameCell)
         {
             setCellState(i_GameCell);
-            o_RoundIsOver = false;
             bool isPlayerLost = isPlayerEndedGame(i_GameCell, i_GameCell.Value);
             if (isPlayerLost)
             {
                 currentPlayerLose();
-                o_RoundIsOver = true;
             }
             else
             {
                 if (r_BoardGame.IsThereNoMoreFreeCells)
                 {
-                    setTie(out o_RoundIsOver);
+                    setTie();
                 }
                 else
                 {
                     if (GameType == Enums.eGameType.PlayerVsComputer)
                     {
-                        computerPlayingLogic(ref o_RoundIsOver);
+                        computerPlayingLogic();
                     }
                     else
                     {
@@ -125,35 +137,33 @@ namespace TicTacToeGameLogic
                     IsFirstPlayerTurn = true;
                     if (m_FirstPlayerStartedRound)
                     {
-                        bool roundIsOverFlag = false;
-                        computerPlayingLogic(ref roundIsOverFlag);
+                        computerPlayingLogic();
                     }
                     m_FirstPlayerStartedRound = !m_FirstPlayerStartedRound;
                     break;
             }
         }
 
-        private void setTie(out bool o_RoundIsOver)
+        private void setTie()
         {
-            o_RoundIsOver = true;
             GameState = Enums.eGameState.Tie;
+            RoundIsOver = true;
         }
 
-        private void computerPlayingLogic(ref bool io_RoundIsOver)
+        private void computerPlayingLogic()
         {
             togglePlayers();
             GameCell computerSelectedCell = playComputerMove();
             bool isComputerLost = isPlayerEndedGame(computerSelectedCell, computerSelectedCell.Value);
             if (isComputerLost)
             {
-                io_RoundIsOver = true;
                 currentPlayerLose();
             }
             else
             {
                 if (r_BoardGame.IsThereNoMoreFreeCells)
                 {
-                    setTie(out io_RoundIsOver);
+                    setTie();
                 }
                 else
                 {
@@ -242,7 +252,7 @@ namespace TicTacToeGameLogic
             bool firstDiagonalIsTrue = true, secondDiagonal = true;
             if (i_GameCell.RowIndex == i_GameCell.ColumnIndex)
             {
-                for (int i = 0 ; i < BoradSize ; i++)
+                for (int i = 0; i < BoradSize; i++)
                 {
                     if (i_GameCell != BoradGameCells[i, i] && BoradGameCells[i, i].Value != i_WantedCellState)
                     {
@@ -257,7 +267,7 @@ namespace TicTacToeGameLogic
             }
             if (i_GameCell.RowIndex + i_GameCell.ColumnIndex == BoradSize - 1)
             {
-                for (int i = 0 ; i < BoradSize ; i++)
+                for (int i = 0; i < BoradSize; i++)
                 {
                     if (i_GameCell != BoradGameCells[i, BoradSize - 1 - i]
                         && BoradGameCells[i, BoradSize - 1 - i].Value != i_WantedCellState)
@@ -277,7 +287,7 @@ namespace TicTacToeGameLogic
         private bool columnEnded(GameCell i_GameCell, Enums.eCellValue i_WantedCellState)
         {
             bool result = true;
-            for (int i = 0 ; i < BoradSize ; i++)
+            for (int i = 0; i < BoradSize; i++)
             {
                 if (i_GameCell != BoradGameCells[i_GameCell.RowIndex, i]
                     && BoradGameCells[i_GameCell.RowIndex, i].Value != i_WantedCellState)
@@ -292,7 +302,7 @@ namespace TicTacToeGameLogic
         private bool rowEnded(GameCell i_GameCell, Enums.eCellValue i_WantedCellState)
         {
             bool result = true;
-            for (int i = 0 ; i < BoradSize ; i++)
+            for (int i = 0; i < BoradSize; i++)
             {
                 if (i_GameCell != BoradGameCells[i, i_GameCell.ColumnIndex]
                     && BoradGameCells[i, i_GameCell.ColumnIndex].Value != i_WantedCellState)
@@ -316,6 +326,7 @@ namespace TicTacToeGameLogic
                 FirstPlayerPoints++;
                 GameState = Enums.eGameState.FirstPlayerWon;
             }
+            RoundIsOver = true;
         }
     }
 }

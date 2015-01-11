@@ -7,48 +7,19 @@ namespace TicTacToeGameFormView
 {
     public class SettingsView : Form
     {
-        private const string k_SecondUserComputerName = "Computer";
+        private const string k_SecondUserComputerName = "[Computer]";
         private Label label1;
         private Label label2;
-        private Label label3;
-        private Label label4;
-        private Label label5;
         private CheckBox secondPlayerIsHumanCheckBox;
+        private Label label3;
         private NumericUpDown rowsNumericUpDown;
+        private Label label4;
         private NumericUpDown colsNumericUpDown;
+        private Label label5;
         private TextBox playerOneTextBox;
         private TextBox playerTwoTextBox;
         private Button startButton;
-
-        public bool SecondPlayerIsHuman
-        {
-            get { return secondPlayerIsHumanCheckBox.Checked; }
-        }
-
-        public string FirstPlayerName
-        {
-            get
-            {
-                return playerOneTextBox.Text;
-            }
-        }
-
-        public string SecondPlayerName
-        {
-            get
-            {
-                return playerTwoTextBox.Text;
-            }
-        }
-
-        public int BoardSize
-        {
-            get
-            {
-                return (int)rowsNumericUpDown.Value;
-            }
-        }
-
+    
         public SettingsView()
         {
             InitializeComponent();
@@ -71,7 +42,9 @@ namespace TicTacToeGameFormView
             playerTwoTextBox.Enabled = true;
             playerTwoTextBox.Text = string.Empty;
         }
-        
+
+       
+
         private void InitializeComponent()
         {
             this.startButton = new System.Windows.Forms.Button();
@@ -97,7 +70,6 @@ namespace TicTacToeGameFormView
             this.startButton.TabIndex = 10;
             this.startButton.Text = "Start!";
             this.startButton.UseVisualStyleBackColor = true;
-            this.startButton.Click += new System.EventHandler(this.startButton_Click);
             // 
             // label1
             // 
@@ -126,8 +98,7 @@ namespace TicTacToeGameFormView
             this.secondPlayerIsHumanCheckBox.TabIndex = 3;
             this.secondPlayerIsHumanCheckBox.Text = "Player 2:";
             this.secondPlayerIsHumanCheckBox.UseVisualStyleBackColor = true;
-            this.secondPlayerIsHumanCheckBox.CheckedChanged +=
-                new System.EventHandler(this.secondPlayerCheckBox_CheckedChanged);
+            this.secondPlayerIsHumanCheckBox.CheckedChanged += new System.EventHandler(this.secondPlayerCheckBox_CheckedChanged);
             // 
             // label3
             // 
@@ -141,30 +112,24 @@ namespace TicTacToeGameFormView
             // rowsNumericUpDown
             // 
             this.rowsNumericUpDown.Location = new System.Drawing.Point(65, 113);
-            this.rowsNumericUpDown.Maximum = new decimal(new int[]
-                                                         {
-                                                             10,
-                                                             0,
-                                                             0,
-                                                             0
-                                                         });
-            this.rowsNumericUpDown.Minimum = new decimal(new int[]
-                                                         {
-                                                             4,
-                                                             0,
-                                                             0,
-                                                             0
-                                                         });
+            this.rowsNumericUpDown.Maximum = new decimal(new int[] {
+            10,
+            0,
+            0,
+            0});
+            this.rowsNumericUpDown.Minimum = new decimal(new int[] {
+            4,
+            0,
+            0,
+            0});
             this.rowsNumericUpDown.Name = "rowsNumericUpDown";
             this.rowsNumericUpDown.Size = new System.Drawing.Size(37, 20);
             this.rowsNumericUpDown.TabIndex = 7;
-            this.rowsNumericUpDown.Value = new decimal(new int[]
-                                                       {
-                                                           4,
-                                                           0,
-                                                           0,
-                                                           0
-                                                       });
+            this.rowsNumericUpDown.Value = new decimal(new int[] {
+            4,
+            0,
+            0,
+            0});
             this.rowsNumericUpDown.ValueChanged += new System.EventHandler(this.numericUpDown_ValueChanged);
             // 
             // label4
@@ -179,30 +144,24 @@ namespace TicTacToeGameFormView
             // colsNumericUpDown
             // 
             this.colsNumericUpDown.Location = new System.Drawing.Point(162, 113);
-            this.colsNumericUpDown.Maximum = new decimal(new int[]
-                                                         {
-                                                             10,
-                                                             0,
-                                                             0,
-                                                             0
-                                                         });
-            this.colsNumericUpDown.Minimum = new decimal(new int[]
-                                                         {
-                                                             4,
-                                                             0,
-                                                             0,
-                                                             0
-                                                         });
+            this.colsNumericUpDown.Maximum = new decimal(new int[] {
+            10,
+            0,
+            0,
+            0});
+            this.colsNumericUpDown.Minimum = new decimal(new int[] {
+            4,
+            0,
+            0,
+            0});
             this.colsNumericUpDown.Name = "colsNumericUpDown";
             this.colsNumericUpDown.Size = new System.Drawing.Size(37, 20);
             this.colsNumericUpDown.TabIndex = 9;
-            this.colsNumericUpDown.Value = new decimal(new int[]
-                                                       {
-                                                           4,
-                                                           0,
-                                                           0,
-                                                           0
-                                                       });
+            this.colsNumericUpDown.Value = new decimal(new int[] {
+            4,
+            0,
+            0,
+            0});
             this.colsNumericUpDown.ValueChanged += new System.EventHandler(this.numericUpDown_ValueChanged);
             // 
             // label5
@@ -269,7 +228,9 @@ namespace TicTacToeGameFormView
                 setSecondPlayerComputer();
             }
         }
-        
+
+        public bool SecondPlayerIsHuman { get { return secondPlayerIsHumanCheckBox.Checked; } }
+
         private void numericUpDown_ValueChanged(object sender, EventArgs e)
         {
             if (sender == rowsNumericUpDown)
@@ -280,39 +241,6 @@ namespace TicTacToeGameFormView
             {
                 rowsNumericUpDown.Value = colsNumericUpDown.Value;
             }
-        }
-
-        private void startButton_Click(object sender, EventArgs e)
-        {
-            string errorMessage;
-            if (validateNamesInput(out errorMessage))
-            {
-                DialogResult = DialogResult.OK;
-                Close();
-            }
-            else
-            {
-                ViewHelpers.RaiseErrorMessage(errorMessage);
-            }
-        }
-
-        private bool validateNamesInput(out string o_ErrorMessage)
-        {
-            bool result = true;
-            o_ErrorMessage = string.Empty;
-
-            if (string.IsNullOrEmpty(playerOneTextBox.Text.Trim()))
-            {
-                result = false;
-                o_ErrorMessage = "Please enter first player name";
-            }
-            else if (SecondPlayerIsHuman && string.IsNullOrEmpty(playerTwoTextBox.Text.Trim()))
-            {
-                result = false;
-                o_ErrorMessage = "Please enter second player name";
-            }
-
-            return result;
         }
     }
 }

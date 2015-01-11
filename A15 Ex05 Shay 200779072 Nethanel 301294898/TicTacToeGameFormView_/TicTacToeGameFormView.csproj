@@ -4,7 +4,7 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{E983931D-D2BD-4583-86C7-1D778C59CD84}</ProjectGuid>
+    <ProjectGuid>{8A8C752C-5EBB-493A-97D9-426BE8668AD9}</ProjectGuid>
     <OutputType>WinExe</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>TicTacToeGameFormView</RootNamespace>
@@ -35,18 +35,25 @@
     <StartupObject />
   </PropertyGroup>
   <ItemGroup>
+<<<<<<< HEAD
     <Compile Include="BoardView.cs">
       <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="GameCellButton.cs">
-      <SubType>Component</SubType>
     </Compile>
     <Compile Include="Program.cs" />
     <Compile Include="SettingsView.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="ViewHelpers.cs" />
+=======
+    <Compile Include="Program.cs" />
+    <Compile Include="TicTacToeGameBoard.cs" />
+>>>>>>> origin/master
   </ItemGroup>
+  <ItemGroup>
+    <Reference Include="System" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Windows.Forms" />
+  </ItemGroup>
+<<<<<<< HEAD
   <ItemGroup>
     <EmbeddedResource Include="BoardView.resx">
       <DependentUpon>BoardView.cs</DependentUpon>
@@ -55,17 +62,8 @@
       <DependentUpon>SettingsView.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
-  <ItemGroup>
-    <Reference Include="System" />
-    <Reference Include="System.Drawing" />
-    <Reference Include="System.Windows.Forms" />
-  </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\TicTacToeGameLogic\TicTacToeGameLogic.csproj">
-      <Project>{cb3a7ca8-86d7-42b8-899e-4acc9b23cd63}</Project>
-      <Name>TicTacToeGameLogic</Name>
-    </ProjectReference>
-  </ItemGroup>
+=======
+>>>>>>> origin/master
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

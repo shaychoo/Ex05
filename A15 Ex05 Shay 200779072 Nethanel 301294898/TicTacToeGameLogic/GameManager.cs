@@ -1,5 +1,9 @@
 ﻿namespace TicTacToeGameLogic
 {
+    
+
+
+
     public class GameManager
     {
         private GameLogic m_GameLogic;
@@ -62,7 +66,16 @@
             }
             else
             {
-                m_GameLogic = new GameLogic(i_BoardSize, i_GameType);
+                m_GameLogic = new GameLogic(i_BoardSize, i_GameType,OnCellValueChanged);
+                m_GameLogic.RoundOver += m_GameLogic_RoundOver;
+            }
+        }
+
+        void m_GameLogic_RoundOver(Enums.eGameState i_FinalGameState)
+        {
+            if (RoundIsOver != null)
+            {
+                RoundIsOver.Invoke(i_FinalGameState);
             }
         }
 
@@ -71,31 +84,26 @@
             m_GameLogic.InitializeRound();
         }
 
-        public void SetNextMove(int i_RowIndex, int i_ColumnIndex, ref string io_ErrorMessage, out bool o_RoundIsOver)
+        public void SetNextMove(int i_RowIndex, int i_ColumnIndex)
         {
-            if (i_RowIndex < 0 || i_RowIndex >= BoardSize || i_ColumnIndex < 0 || i_ColumnIndex >= BoardSize)
-            {
-                io_ErrorMessage = "You selected a cell outside of the board boundaries!";
-                o_RoundIsOver = false;
-            }
-            else
-            {
-                GameCell wantedGameCell = BoardGameCells[i_RowIndex, i_ColumnIndex];
-                if (!wantedGameCell.IsFree)
-                {
-                    io_ErrorMessage = "This cell is already taken!";
-                    o_RoundIsOver = false;
-                }
-                else
-                {
-                    m_GameLogic.NextPlayerMove(wantedGameCell, out o_RoundIsOver);
-                }
-            }
+            GameCell wantedGameCell = BoardGameCells[i_RowIndex, i_ColumnIndex];
+            m_GameLogic.NextPlayerMove(wantedGameCell);
         }
 
         public void UserQuit()
         {
             m_GameLogic.UserQuit();
+        }
+
+        public event RoundIsOverHandler RoundIsOver;
+        public event CellValueChangedHandler CellValueChanged;
+
+        public void OnCellValueChanged(GameCell i_GameCell)
+        {
+            if (CellValueChanged != null)
+            {
+                CellValueChanged.Invoke(i_GameCell);
+            }
         }
     }
 }

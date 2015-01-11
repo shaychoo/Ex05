@@ -4,10 +4,10 @@ namespace TicTacToeGameLogic
 {
     internal class BoardGame
     {
-        internal BoardGame(int i_Size)
+        internal BoardGame(int i_Size, CellValueChangedHandler i_CellValueChangedHandler)
         {
             BoradSize = i_Size;
-            initializeBoardGameCells();
+            initializeBoardGameCells(i_CellValueChangedHandler);
             FreeCellsList = new List<GameCell>(BoradSize * BoradSize);
         }
 
@@ -47,15 +47,16 @@ namespace TicTacToeGameLogic
             }
         }
 
-        private void initializeBoardGameCells()
+        private void initializeBoardGameCells(CellValueChangedHandler i_CellValueChangedHandler)
         {
             BoardGameCells = new GameCell[BoradSize, BoradSize];
-
+            
             for (int row = 0 ; row < BoradSize ; row++)
             {
                 for (int column = 0 ; column < BoradSize ; column++)
                 {
                     BoardGameCells[row, column] = new GameCell(row, column);
+                    BoardGameCells[row, column].CellValueChanged += i_CellValueChangedHandler;
                 }
             }
         }

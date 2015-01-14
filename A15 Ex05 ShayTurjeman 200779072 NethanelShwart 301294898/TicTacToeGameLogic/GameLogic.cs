@@ -3,10 +3,10 @@ using System.Collections.Generic;
 
 namespace TicTacToeGameLogic
 {
-    public delegate void RoundIsOverHandler(Enums.eGameState i_FinalGameState);
+    public delegate void RoundIsOverHandler(Enums.eGameState i_RoundState);
+
     internal class GameLogic
     {
-        public event RoundIsOverHandler RoundOver;
         internal const Enums.eCellValue k_PlayerOneValue = Enums.eCellValue.X;
         internal const Enums.eCellValue k_PlayerTwoValue = Enums.eCellValue.O;
         internal const int k_MinimumBoardSize = 4;
@@ -18,19 +18,25 @@ namespace TicTacToeGameLogic
         
         private bool m_FirstPlayerStartedRound;
 
-        internal GameLogic(int i_BoardSize, Enums.eGameType i_GameType, CellValueChangedHandler i_CellValueChangedHandler)
+        internal GameLogic(int i_BoardSize, Enums.eGameType i_GameType)
         {
-            r_BoardGame = new BoardGame(i_BoardSize, i_CellValueChangedHandler);
+            r_BoardGame = new BoardGame(i_BoardSize);
+            r_BoardGame.CellValueChanged += r_BoardGame_CellValueChanged;
             r_GameType = i_GameType;
+        }
+
+        void r_BoardGame_CellValueChanged(GameCell i_SelectedGameCell)
+        {
+            OnCellValueChanged(i_SelectedGameCell);
         }
 
         private bool RoundIsOver
         {
             set
             {
-                if (value && RoundOver != null)
+                if (value)
                 {
-                    RoundOver.Invoke(FinalGameState);
+                    OnRoundOver(GameState);
                 }
             }
         }
@@ -327,6 +333,26 @@ namespace TicTacToeGameLogic
                 GameState = Enums.eGameState.FirstPlayerWon;
             }
             RoundIsOver = true;
+        }
+
+        public event RoundIsOverHandler RoundOver;
+
+        protected virtual void OnRoundOver(Enums.eGameState i_RoundState)
+        {
+            if (RoundOver != null)
+            {
+                RoundOver.Invoke(i_RoundState);
+            }
+        }
+
+        public event CellValueChangedHandler CellValueChanged;
+
+        protected virtual void OnCellValueChanged(GameCell i_GameCell)
+        {
+            if (CellValueChanged != null)
+            {
+                CellValueChanged.Invoke(i_GameCell);
+            }
         }
     }
 }

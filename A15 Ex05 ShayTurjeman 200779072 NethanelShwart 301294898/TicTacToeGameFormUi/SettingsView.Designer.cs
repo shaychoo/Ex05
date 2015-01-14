@@ -1,50 +1,31 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-using System.Windows.Forms;
-
-namespace TicTacToeGameFormView
+﻿namespace TicTacToeGameFormUi
 {
-    public class SettingsView : Form
+    partial class SettingsView
     {
-        private const string k_SecondUserComputerName = "[Computer]";
-        private Label label1;
-        private Label label2;
-        private CheckBox secondPlayerIsHumanCheckBox;
-        private Label label3;
-        private NumericUpDown rowsNumericUpDown;
-        private Label label4;
-        private NumericUpDown colsNumericUpDown;
-        private Label label5;
-        private TextBox playerOneTextBox;
-        private TextBox playerTwoTextBox;
-        private Button startButton;
-    
-        public SettingsView()
+        /// <summary>
+        /// Required designer variable.
+        /// </summary>
+        private System.ComponentModel.IContainer components = null;
+
+        /// <summary>
+        /// Clean up any resources being used.
+        /// </summary>
+        /// <param name="disposing">true if managed resources should be disposed; otherwise, false.</param>
+        protected override void Dispose(bool disposing)
         {
-            InitializeComponent();
+            if (disposing && (components != null))
+            {
+                components.Dispose();
+            }
+            base.Dispose(disposing);
         }
 
-        protected override void OnLoad(EventArgs e)
-        {
-            base.OnLoad(e);
-            setSecondPlayerComputer();
-        }
+        #region Windows Form Designer generated code
 
-        private void setSecondPlayerComputer()
-        {
-            playerTwoTextBox.Enabled = false;
-            playerTwoTextBox.Text = k_SecondUserComputerName;
-        }
-
-        private void setSecondPlayerHuman()
-        {
-            playerTwoTextBox.Enabled = true;
-            playerTwoTextBox.Text = string.Empty;
-        }
-
-       
-
+        /// <summary>
+        /// Required method for Designer support - do not modify
+        /// the contents of this method with the code editor.
+        /// </summary>
         private void InitializeComponent()
         {
             this.startButton = new System.Windows.Forms.Button();
@@ -70,6 +51,7 @@ namespace TicTacToeGameFormView
             this.startButton.TabIndex = 10;
             this.startButton.Text = "Start!";
             this.startButton.UseVisualStyleBackColor = true;
+            this.startButton.Click += new System.EventHandler(this.startButton_Click);
             // 
             // label1
             // 
@@ -150,7 +132,7 @@ namespace TicTacToeGameFormView
             0,
             0});
             this.colsNumericUpDown.Minimum = new decimal(new int[] {
-            4,
+            1,
             0,
             0,
             0});
@@ -217,30 +199,19 @@ namespace TicTacToeGameFormView
 
         }
 
-        private void secondPlayerCheckBox_CheckedChanged(object sender, EventArgs e)
-        {
-            if (SecondPlayerIsHuman)
-            {
-                setSecondPlayerHuman();
-            }
-            else
-            {
-                setSecondPlayerComputer();
-            }
-        }
+        #endregion
 
-        public bool SecondPlayerIsHuman { get { return secondPlayerIsHumanCheckBox.Checked; } }
+        private System.Windows.Forms.TextBox playerTwoTextBox;
+        private System.Windows.Forms.TextBox playerOneTextBox;
+        private System.Windows.Forms.NumericUpDown colsNumericUpDown;
+        private System.Windows.Forms.Label label5;
+        private System.Windows.Forms.NumericUpDown rowsNumericUpDown;
+        private System.Windows.Forms.Label label3;
+        private System.Windows.Forms.CheckBox secondPlayerIsHumanCheckBox;
+        private System.Windows.Forms.Label label4;
+        private System.Windows.Forms.Label label2;
+        private System.Windows.Forms.Label label1;
+        private System.Windows.Forms.Button startButton;
 
-        private void numericUpDown_ValueChanged(object sender, EventArgs e)
-        {
-            if (sender == rowsNumericUpDown)
-            {
-                colsNumericUpDown.Value = rowsNumericUpDown.Value;
-            }
-            else
-            {
-                rowsNumericUpDown.Value = colsNumericUpDown.Value;
-            }
-        }
     }
 }

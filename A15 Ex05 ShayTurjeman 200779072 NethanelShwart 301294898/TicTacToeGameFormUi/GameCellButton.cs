@@ -1,14 +1,13 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Drawing;
-using System.Text;
+﻿using System.Drawing;
 using System.Windows.Forms;
 using TicTacToeGameLogic;
 
-namespace TicTacToeGameFormView
+namespace TicTacToeGameFormUi
 {
     internal class GameCellButton : Button
     {
+        internal const int k_ButtonSize = 50;
+
         internal Enums.eCellValue CellValue
         {
             set
@@ -27,23 +26,21 @@ namespace TicTacToeGameFormView
                 }
             }
         }
+        internal int RowIndex { get; set; }
+        internal int ColIndex { get; set; }
 
-        internal int RowIndex { get; private set; }
-        internal int ColIndex { get; private set; }
-
-        internal GameCellButton(int i_RowIndex, int i_ColIndex, Point i_Point,Size i_Size)
+        internal GameCellButton(int i_RowIndex, int i_ColIndex, Point i_Location)
         {
             RowIndex = i_RowIndex;
             ColIndex = i_ColIndex;
-            Location = i_Point;
-            Size = i_Size;
+            Location = i_Location;
             initializeComponent();
         }
 
         private void initializeComponent()
         {
+            Size = new Size(k_ButtonSize, k_ButtonSize);
             Font = new Font("Microsoft Sans Serif", 15F, FontStyle.Bold, GraphicsUnit.Point, ((177)));
-            UseVisualStyleBackColor = true;
         }
     }
 }

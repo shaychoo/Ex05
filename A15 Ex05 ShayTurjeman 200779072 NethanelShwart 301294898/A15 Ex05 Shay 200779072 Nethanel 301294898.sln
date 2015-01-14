@@ -5,7 +5,12 @@ VisualStudioVersion = 12.0.30723.0
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TicTacToeGameLogic", "TicTacToeGameLogic\TicTacToeGameLogic.csproj", "{CB3A7CA8-86D7-42B8-899E-4ACC9B23CD63}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TicTacToeGameFormView", "TicTacToeGameFormView\TicTacToeGameFormView.csproj", "{E983931D-D2BD-4583-86C7-1D778C59CD84}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TicTacToeGameFormUi", "TicTacToeGameFormUi\TicTacToeGameFormUi.csproj", "{D05CF9DA-FC83-4A58-B784-23676E20DFFA}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{68F3AA9E-08E8-48D0-A8AD-E6B775927876}"
+	ProjectSection(SolutionItems) = preProject
+		Exercise Checking Report.txt = Exercise Checking Report.txt
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -17,10 +22,10 @@ Global
 		{CB3A7CA8-86D7-42B8-899E-4ACC9B23CD63}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{CB3A7CA8-86D7-42B8-899E-4ACC9B23CD63}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{CB3A7CA8-86D7-42B8-899E-4ACC9B23CD63}.Release|Any CPU.Build.0 = Release|Any CPU
-		{E983931D-D2BD-4583-86C7-1D778C59CD84}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{E983931D-D2BD-4583-86C7-1D778C59CD84}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{E983931D-D2BD-4583-86C7-1D778C59CD84}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{E983931D-D2BD-4583-86C7-1D778C59CD84}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D05CF9DA-FC83-4A58-B784-23676E20DFFA}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D05CF9DA-FC83-4A58-B784-23676E20DFFA}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D05CF9DA-FC83-4A58-B784-23676E20DFFA}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D05CF9DA-FC83-4A58-B784-23676E20DFFA}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

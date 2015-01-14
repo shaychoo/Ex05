@@ -1,9 +1,5 @@
 ﻿namespace TicTacToeGameLogic
 {
-    
-
-
-
     public class GameManager
     {
         private GameLogic m_GameLogic;
@@ -66,18 +62,14 @@
             }
             else
             {
-                m_GameLogic = new GameLogic(i_BoardSize, i_GameType,OnCellValueChanged);
+                m_GameLogic = new GameLogic(i_BoardSize, i_GameType);
                 m_GameLogic.RoundOver += m_GameLogic_RoundOver;
+                m_GameLogic.CellValueChanged += m_GameLogic_CellValueChanged;
+
             }
         }
 
-        void m_GameLogic_RoundOver(Enums.eGameState i_FinalGameState)
-        {
-            if (RoundIsOver != null)
-            {
-                RoundIsOver.Invoke(i_FinalGameState);
-            }
-        }
+
 
         public void InitializeRound()
         {
@@ -96,14 +88,33 @@
         }
 
         public event RoundIsOverHandler RoundIsOver;
+
+        protected virtual void OnRoundIsOver(Enums.eGameState i_RoundState)
+        {
+            if (RoundIsOver != null)
+            {
+                RoundIsOver.Invoke(i_RoundState);
+            }
+        }
+
+        private void m_GameLogic_RoundOver(Enums.eGameState i_FinalGameState)
+        {
+            OnRoundIsOver(i_FinalGameState);
+        }
+
         public event CellValueChangedHandler CellValueChanged;
 
-        public void OnCellValueChanged(GameCell i_GameCell)
+        protected virtual void OnCellValueChanged(GameCell i_GameCell)
         {
             if (CellValueChanged != null)
             {
                 CellValueChanged.Invoke(i_GameCell);
             }
+        }
+
+        private void m_GameLogic_CellValueChanged(GameCell i_SelectedGameCell)
+        {
+            OnCellValueChanged(i_SelectedGameCell);
         }
     }
 }

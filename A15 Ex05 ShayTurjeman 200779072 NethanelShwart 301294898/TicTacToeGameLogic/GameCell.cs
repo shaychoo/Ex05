@@ -1,11 +1,21 @@
 ﻿namespace TicTacToeGameLogic
 {
     public delegate void CellValueChangedHandler(GameCell i_SelectedGameCell);
+
     public class GameCell
     {
         private Enums.eCellValue m_Value;
 
         public event CellValueChangedHandler CellValueChanged;
+
+        protected virtual void OnCellValueChanged(GameCell i_GameCell)
+        {
+            if (CellValueChanged != null)
+            {
+                CellValueChanged.Invoke(i_GameCell);
+            }
+        }
+
         internal GameCell(int i_RowIndex, int i_ColumnIndex)
         {
             RowIndex = i_RowIndex;
@@ -26,10 +36,7 @@
             internal set
             {
                 m_Value = value;
-                if (CellValueChanged != null)
-                {
-                    CellValueChanged.Invoke(this);
-                }
+                OnCellValueChanged(this);
             }
         }
     }
